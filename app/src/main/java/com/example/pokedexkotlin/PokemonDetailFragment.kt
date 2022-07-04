@@ -17,6 +17,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class PokemonDetailFragment : Fragment() {
@@ -27,6 +28,8 @@ class PokemonDetailFragment : Fragment() {
     private lateinit var defenseText: TextView
     private lateinit var speedText: TextView
     private lateinit var loadingWheel: ProgressBar
+    private lateinit var playFab: FloatingActionButton
+
 
     private val args: PokemonDetailFragmentArgs by navArgs()
 
@@ -43,10 +46,16 @@ class PokemonDetailFragment : Fragment() {
         defenseText = rootView.findViewById(R.id.fragment_detail_defense)
         speedText = rootView.findViewById(R.id.fragment_detail_speed)
         loadingWheel = rootView.findViewById(R.id.loading_wheel)
+        playFab = rootView.findViewById(R.id.play_fab)
 
 
         setupToolbar(rootView, pokemon.name)
         setPokemonData(pokemon)
+
+        playFab.setOnClickListener {
+            val mediaPlayer = MediaPlayer.create(requireActivity(), pokemon.soundId)
+            mediaPlayer.start()
+        }
         return rootView
     }
 
@@ -91,8 +100,7 @@ class PokemonDetailFragment : Fragment() {
         defenseText.text = getString(R.string.defense_format, pokemon.defense)
         speedText.text = getString(R.string.speed_format, pokemon.speed)
 
-        val mediaPlayer = MediaPlayer.create(requireActivity(), pokemon.soundId)
-        mediaPlayer.start()
+
     }
 
 
