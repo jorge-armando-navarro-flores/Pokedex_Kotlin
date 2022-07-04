@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -43,11 +44,19 @@ class PokemonDetailFragment : Fragment() {
         speedText = rootView.findViewById(R.id.fragment_detail_speed)
         loadingWheel = rootView.findViewById(R.id.loading_wheel)
 
-        val nameText = rootView.findViewById<TextView>(R.id.fragment_datail_name)
-        nameText.text = pokemon.name
 
+        setupToolbar(rootView, pokemon.name)
         setPokemonData(pokemon)
         return rootView
+    }
+
+    private fun setupToolbar(rootView: View?, name: String) {
+        val toolbar = rootView!!.findViewById<Toolbar>(R.id.detail_toolbar)
+        toolbar.title = name
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun setPokemonData(pokemon: Pokemon) {
